@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Absensi APEL Bappeda</title>
+  <script>
+    function toggleAlasan() {
+      const status = document.getElementById("kehadiran").value;
+      document.getElementById("alasanDiv").style.display = (status === "Tidak Hadir") ? "block" : "none";
+    }
+
+    async function submitForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new URLSearchParams(new FormData(form));
+
+      await fetch("https://script.google.com/macros/s/AKfycbzaFraSw-TJaBX0QWVF7sMO-4uxkjXdf4DQPw-DUzwjtLg2RVDmKgOEcO_SOIbH3fx5/exec", {
+        method: "POST",
+        body: data,
+      });
+
+      alert("Data berhasil dikirim!");
+      form.reset();
+      document.getElementById("alasanDiv").style.display = "none";
+    }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-blue-100 min-h-screen flex items-center justify-center">
+  <form onsubmit="submitForm(event)" class="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
+    <h2 class="text-2xl font-bold text-center text-blue-700">Form Kehadiran APEL</h2>
+
+    <div>
+      <label class="block text-gray-700 font-semibold">Nama</label>
+      <input type="text" name="nama" required class="w-full p-2 border rounded" />
+    </div>
+
+    <div>
+      <label class="block text-gray-700 font-semibold">Kehadiran</label>
+      <select name="kehadiran" id="kehadiran" onchange="toggleAlasan()" required class="w-full p-2 border rounded">
+        <option value="">-- Pilih --</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+    </div>
+
+    <div id="alasanDiv" style="display: none;">
+      <label class="block text-gray-700 font-semibold">Jenis Ketidakhadiran</label>
+      <select name="alasan" class="w-full p-2 border rounded">
+        <option value="">-- Pilih --</option>
+        <option value="Ijin">Ijin</option>
+        <option value="DL">DL</option>
+        <option value="Tanpa Keterangan">Tanpa Keterangan</option>
+      </select>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Kirim
+    </button>
+  </form>
+</body>
+</html>
